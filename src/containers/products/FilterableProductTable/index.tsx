@@ -19,6 +19,7 @@ interface Props extends InjectedFormProps {
 
 interface OwnProps {
 	products: Product[];
+	
 	getProductsList: () => void;
 	filter: ProductFilter;
 	setFilter: (filter: ProductFilter) => void;
@@ -40,6 +41,9 @@ class FilterableProductTable extends React.PureComponent<Props & OwnProps, State
 		this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
 		this.handleProductSelected = this.handleProductSelected.bind(this);
 		this.handleInStockChange = this.handleInStockChange.bind(this);
+		this.handleFilterIdTextChange = this.handleFilterIdTextChange.bind(this);
+
+		
 	}
 
 	componentDidMount() {
@@ -62,9 +66,20 @@ class FilterableProductTable extends React.PureComponent<Props & OwnProps, State
 		const { setFilter, filter } = this.props;
 		setFilter({ ...filter, inStockOnly });
 	}
+	
+	handleFilterIdTextChange(filterIdText: string) {
+		const { setFilter, filter } = this.props;
+		setFilter({ ...filter, filterIdText });
+	}
+
+	// handleInStockChangeId(inStockOnly: boolean) {
+	// 	const { setFilter, filter } = this.props;
+	// 	setFilter({ ...filter, inStockOnly });
+	// }
+	
 
 	render() {
-		const { filter: { filterText, inStockOnly }, products, translate } = this.props;
+		const { filter: { filterText, inStockOnly,filterIdText }, products, translate } = this.props;
 		const { selectedProduct } = this.state;
 
 		return (
@@ -72,9 +87,11 @@ class FilterableProductTable extends React.PureComponent<Props & OwnProps, State
 				<Row>
 					<ProductSearchBar
 						filterText={filterText}
+						filterIdText={filterIdText}
 						inStockOnly={inStockOnly}
 						onFilterTextChange={this.handleFilterTextChange}
 						onInStockChange={this.handleInStockChange}
+						onFilterIdTextChange={this.handleFilterIdTextChange}
 					/>
 				</Row>
 				<Row>

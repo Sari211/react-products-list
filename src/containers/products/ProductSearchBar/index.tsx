@@ -4,13 +4,17 @@ import { Form } from 'react-bootstrap';
 interface Props {
 	filterText: string;
 	inStockOnly: boolean;
+	filterIdText:string
 	onFilterTextChange: (text: string) => void;
 	onInStockChange: (inStock: boolean) => void;
+	// onInStockChangeId:(inStock: boolean) => void;
+	onFilterIdTextChange:(text: string) => void;
 }
 
 const ProductSearchBar: React.FC<Props> = (props: Props) => {
 	const {
-		filterText, inStockOnly, onFilterTextChange, onInStockChange
+		filterIdText,filterText, inStockOnly ,onFilterTextChange, onInStockChange,
+		onFilterIdTextChange
 	} = props;
 
 	function handleFilterTextChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -21,6 +25,14 @@ const ProductSearchBar: React.FC<Props> = (props: Props) => {
 		const value: boolean = e.target.checked as any as boolean;
 		onInStockChange(value);
 	}
+	function handleFilterIdTextChange(e: React.ChangeEvent<HTMLInputElement>) {
+		onFilterIdTextChange(e.target.value.toString());
+	}
+
+	// function handleInStockChangeId(e: React.ChangeEvent<HTMLInputElement>) {
+	// 	const value: boolean = e.target.checked as any as boolean;
+	// 	onInStockChangeId(value);
+	// }
 	return (
 		<Form>
 			<Form.Group>
@@ -32,6 +44,15 @@ const ProductSearchBar: React.FC<Props> = (props: Props) => {
 				/>
 			</Form.Group>
 
+			
+			<Form.Group>
+				<Form.Control
+					type="text"
+					placeholder="Search By Id..."
+					value={filterIdText}
+					onChange={handleFilterIdTextChange}
+				/>
+			</Form.Group>
 			<Form.Group>
 				<Form.Check
 					label="Only show products in stock"
@@ -39,7 +60,16 @@ const ProductSearchBar: React.FC<Props> = (props: Props) => {
 					onChange={handleInStockChange}
 				/>
 			</Form.Group>
+
+			{/* <Form.Group>
+				<Form.Check
+					label="Only show products in stock"
+					checked={inStockOnly}
+					onChange={handleInStockChangeId}
+				/>
+			</Form.Group> */}
 		</Form>
+		
 	);
 };
 
